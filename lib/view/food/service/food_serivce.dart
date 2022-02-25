@@ -2,6 +2,7 @@ import 'package:dio/src/dio.dart';
 
 import '../model/category.dart';
 import '../model/food.dart';
+import '../model/restaurant.dart';
 import 'Ifood_service.dart';
 
 class FoodService extends IFoodService {
@@ -30,5 +31,13 @@ class FoodService extends IFoodService {
   Future<dynamic> getFoodsByCategory(String categoryId) async {
     final response = await dio.get('$baseUrl/categories/$categoryId');
     return await response.data.map((data) => Food.fromJson(data)).toList();
+  }
+
+  @override
+  Future<dynamic> getRestaurants() async {
+    final response = await dio.get('$baseUrl/restaurants');
+    return await response.data
+        .map((data) => Restaurant.fromJson(data))
+        .toList();
   }
 }
