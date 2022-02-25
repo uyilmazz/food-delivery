@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 
-import '../model/category.dart';
 import '../model/food.dart';
 
 abstract class IFoodService {

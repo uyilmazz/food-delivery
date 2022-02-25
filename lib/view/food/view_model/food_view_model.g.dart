@@ -54,6 +54,52 @@ mixin _$FoodViewModel on _FoodViewModelBase, Store {
     });
   }
 
+  final _$restaurantsAtom = Atom(name: '_FoodViewModelBase.restaurants');
+
+  @override
+  List<dynamic> get restaurants {
+    _$restaurantsAtom.reportRead();
+    return super.restaurants;
+  }
+
+  @override
+  set restaurants(List<dynamic> value) {
+    _$restaurantsAtom.reportWrite(value, super.restaurants, () {
+      super.restaurants = value;
+    });
+  }
+
+  final _$currentNavBarItemAtom =
+      Atom(name: '_FoodViewModelBase.currentNavBarItem');
+
+  @override
+  int get currentNavBarItem {
+    _$currentNavBarItemAtom.reportRead();
+    return super.currentNavBarItem;
+  }
+
+  @override
+  set currentNavBarItem(int value) {
+    _$currentNavBarItemAtom.reportWrite(value, super.currentNavBarItem, () {
+      super.currentNavBarItem = value;
+    });
+  }
+
+  final _$foodSizeIndexAtom = Atom(name: '_FoodViewModelBase.foodSizeIndex');
+
+  @override
+  int get foodSizeIndex {
+    _$foodSizeIndexAtom.reportRead();
+    return super.foodSizeIndex;
+  }
+
+  @override
+  set foodSizeIndex(int value) {
+    _$foodSizeIndexAtom.reportWrite(value, super.foodSizeIndex, () {
+      super.foodSizeIndex = value;
+    });
+  }
+
   final _$getCategoriesAsyncAction =
       AsyncAction('_FoodViewModelBase.getCategories');
 
@@ -78,6 +124,14 @@ mixin _$FoodViewModel on _FoodViewModelBase, Store {
         .run(() => super.getFoodByCategory(categoryId));
   }
 
+  final _$getRestaurantAsyncAction =
+      AsyncAction('_FoodViewModelBase.getRestaurant');
+
+  @override
+  Future<void> getRestaurant() {
+    return _$getRestaurantAsyncAction.run(() => super.getRestaurant());
+  }
+
   final _$_FoodViewModelBaseActionController =
       ActionController(name: '_FoodViewModelBase');
 
@@ -93,11 +147,36 @@ mixin _$FoodViewModel on _FoodViewModelBase, Store {
   }
 
   @override
+  void changeNavbarItem(int value) {
+    final _$actionInfo = _$_FoodViewModelBaseActionController.startAction(
+        name: '_FoodViewModelBase.changeNavbarItem');
+    try {
+      return super.changeNavbarItem(value);
+    } finally {
+      _$_FoodViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeFoodSizeIndex(int value) {
+    final _$actionInfo = _$_FoodViewModelBaseActionController.startAction(
+        name: '_FoodViewModelBase.changeFoodSizeIndex');
+    try {
+      return super.changeFoodSizeIndex(value);
+    } finally {
+      _$_FoodViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 categories: ${categories},
 isLoading: ${isLoading},
-foods: ${foods}
+foods: ${foods},
+restaurants: ${restaurants},
+currentNavBarItem: ${currentNavBarItem},
+foodSizeIndex: ${foodSizeIndex}
     ''';
   }
 }

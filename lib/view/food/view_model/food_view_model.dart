@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import '../../../core/base/model/base_view_model.dart';
-import '../service/food_serivce.dart';
 import 'package:mobx/mobx.dart';
 
-import '../model/category.dart';
+import '../../../core/base/model/base_view_model.dart';
+import '../service/food_serivce.dart';
 
 part 'food_view_model.g.dart';
 
@@ -31,9 +30,20 @@ abstract class _FoodViewModelBase with Store, BaseViewModel {
   @observable
   List<dynamic> foods = [];
 
+  @observable
+  List<dynamic> restaurants = [];
+
+  @observable
+  int currentNavBarItem = 0;
+
+  @observable
+  int foodSizeIndex = 0;
+
   @override
   void init() {
+    print('model init');
     getCategories();
+    getRestaurant();
     getFoods();
   }
 
@@ -57,5 +67,21 @@ abstract class _FoodViewModelBase with Store, BaseViewModel {
   @action
   Future<void> getFoodByCategory(String categoryId) async {
     foods = await _foodService.getFoodsByCategory(categoryId);
+  }
+
+  @action
+  Future<void> getRestaurant() async {
+    restaurants = await _foodService.getRestaurants();
+  }
+
+  @action
+  void changeNavbarItem(int value) {
+    currentNavBarItem = value;
+  }
+
+  @action
+  void changeFoodSizeIndex(int value) {
+    print('viewmodel size');
+    foodSizeIndex = value;
   }
 }
