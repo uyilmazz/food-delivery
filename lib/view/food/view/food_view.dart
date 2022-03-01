@@ -2,8 +2,8 @@ import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'profile_page.dart';
 import 'shopping_page.dart';
+import 'profile_page.dart';
 import '../../../core/constants/app_constant.dart';
 import '../../../product/widgets/appBar/appBar.dart';
 import '../../../product/widgets/cart/restaurant_card.dart';
@@ -12,7 +12,7 @@ import '../../../core/base/view/base_widget.dart';
 import '../../../core/constants/color_constant.dart';
 import '../../../core/extensions/context_extension.dart';
 import '../../../core/extensions/string_extension.dart';
-import '../../../product/widgets/cart/food_cart.dart';
+import '../../../product/widgets/cart/food_card.dart';
 import '../service/food_serivce.dart';
 import '../view_model/food_view_model.dart';
 
@@ -63,15 +63,16 @@ class FoodView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(flex: 4, child: buildAppbar(context)),
+                  const Spacer(),
                   Expanded(flex: 3, child: buildSearchTextField(context)),
                   const Spacer(),
                   Expanded(flex: 2, child: buildTabBar(context, viewmodel)),
-                  const Spacer(flex: 1),
+                  const Spacer(flex: 2),
                   Expanded(
-                      flex: 15, child: buildFoodListView(context, viewmodel)),
+                      flex: 16, child: buildFoodListView(context, viewmodel)),
                   const Spacer(),
-                  Expanded(flex: 5, child: buildNearYou(context, viewmodel)),
-                  const Spacer(),
+                  Expanded(flex: 7, child: buildNearYou(context, viewmodel)),
+                  // const Spacer(),
                 ],
               ),
             ));
@@ -108,9 +109,9 @@ class FoodView extends StatelessWidget {
             EdgeInsets.symmetric(horizontal: context.width * 0.08, vertical: 3),
       ),
       unselectedLabelStyle: context.textTheme.headline6!
-          .copyWith(fontSize: 15, fontWeight: FontWeight.w300),
-      labelStyle: context.textTheme.headline5!
-          .copyWith(fontSize: 18, fontWeight: FontWeight.w400),
+          .copyWith(fontSize: 15, fontWeight: FontWeight.w400),
+      labelStyle:
+          context.textTheme.headline6!.copyWith(fontWeight: FontWeight.w500),
       onTap: (tabIndex) {
         viewModel.getFoodByCategory(viewModel.categories[tabIndex].id);
       },
@@ -147,16 +148,17 @@ class FoodView extends StatelessWidget {
       children: [
         Text(
           'Good Morning',
-          style: context.textTheme.labelMedium!.copyWith(
+          style: context.textTheme.subtitle2!.copyWith(
               color: Colors.black,
-              fontFamily: 'ProductSansLight',
-              fontSize: 13),
+              fontFamily: AppConstant.FONT_FAMILY_LIGHT,
+              fontWeight: FontWeight.w500,
+              fontSize: 14),
         ),
         Text('Ünal Yılmaz',
             style: context.textTheme.labelLarge!.copyWith(
-                fontFamily: 'ProductSans',
-                fontSize: 18,
-                fontWeight: FontWeight.normal)),
+                // fontFamily: 'ProductSans',
+                fontSize: 20,
+                fontWeight: FontWeight.w600)),
       ],
     );
   }
@@ -167,31 +169,39 @@ class FoodView extends StatelessWidget {
         decoration: InputDecoration(
             hintText: 'Search Food, Restaurant, Drinks',
             hintStyle: const TextStyle(
-                fontSize: 10, color: Colors.grey, fontWeight: FontWeight.w500),
+                fontSize: 12, color: Colors.grey, fontWeight: FontWeight.w400),
             fillColor: ColorConstants.secondaryColor,
             filled: true,
             prefixIcon: const Icon(Icons.search),
             suffixIcon: Image.asset('search_fill_icon'.toPng),
             contentPadding:
-                EdgeInsets.symmetric(vertical: context.height * 0.02),
+                EdgeInsets.symmetric(vertical: context.height * 0.03),
             border: OutlineInputBorder(
-                borderSide: BorderSide.none,
+                borderSide: const BorderSide(
+                  color: Color(0xFFE8ECED),
+                ),
+                borderRadius:
+                    BorderRadius.circular(context.dynamicWidth(0.02))),
+            enabledBorder: OutlineInputBorder(
+                borderSide:
+                    const BorderSide(color: Color(0xFFE8ECED), width: 2),
                 borderRadius:
                     BorderRadius.circular(context.dynamicWidth(0.02)))),
       );
 
   Widget _buildFloatingBar(BuildContext context, FoodViewModel viewModel) =>
       Observer(builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(bottom: context.normalValue * 2),
+        return Container(
+          height: context.height * 0.11,
+          padding: EdgeInsets.only(bottom: context.normalValue * 1),
           child: CustomNavigationBar(
             elevation: 0,
             strokeColor: Colors.transparent,
-            iconSize: context.height * 0.03,
+            iconSize: context.height * 0.035,
             selectedColor: Colors.white,
             unSelectedColor: Colors.white.withOpacity(0.5),
             backgroundColor: ColorConstants.primaryColor,
-            borderRadius: Radius.circular(context.mediumValue * 0.7),
+            borderRadius: Radius.circular(context.mediumValue),
             items: [
               CustomNavigationBarItem(
                 icon: const Icon(Icons.home),

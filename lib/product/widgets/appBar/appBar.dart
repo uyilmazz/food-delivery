@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import '../../../core/extensions/context_extension.dart';
-import '../../../core/extensions/string_extension.dart';
 
 class CustomAppBar extends StatelessWidget {
   Widget? leading;
