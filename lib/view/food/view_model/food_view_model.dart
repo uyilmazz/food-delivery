@@ -13,7 +13,6 @@ abstract class _FoodViewModelBase with Store, BaseViewModel {
   BuildContext? context;
 
   final FoodService _foodService;
-
   _FoodViewModelBase(this._foodService);
 
   @override
@@ -41,7 +40,6 @@ abstract class _FoodViewModelBase with Store, BaseViewModel {
 
   @override
   void init() {
-    print('model init');
     getCategories();
     getRestaurant();
     getFoods();
@@ -81,7 +79,6 @@ abstract class _FoodViewModelBase with Store, BaseViewModel {
 
   @action
   void changeFoodSizeIndex(int value) {
-    print('viewmodel size');
     foodSizeIndex = value;
   }
 }

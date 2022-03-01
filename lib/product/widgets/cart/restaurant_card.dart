@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../core/extensions/context_extension.dart';
 import '../../../core/extensions/string_extension.dart';
 import '../../../view/food/model/restaurant.dart';
@@ -25,21 +26,22 @@ class RestaurantCard extends StatelessWidget {
             padding: EdgeInsets.all(context.normalValue * 0.8),
             decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(context.normalValue)),
+                borderRadius: BorderRadius.circular(context.normalValue * 0.8)),
             child: Image.asset('pizza_hut'.toPng),
           ),
           Column(
-            // mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            // mainAxisSize: MainAxisSize.min,
             children: [
-              Text(restaurant.name.toString(), style: TextStyle(fontSize: 12)),
+              Text(restaurant.name.toString(),
+                  style: context.textTheme.subtitle1!
+                      .copyWith(fontWeight: FontWeight.bold)),
               Text(restaurant.address.toString(),
                   style: context.textTheme.labelMedium!
-                      .copyWith(fontSize: 10, color: const Color(0xFF969696))),
+                      .copyWith(fontSize: 11, color: const Color(0xFF969696))),
               Text(restaurant.telNo.toString(),
-                  style: context.textTheme.labelMedium!.copyWith(fontSize: 10)),
+                  style: context.textTheme.labelMedium!
+                      .copyWith(fontSize: 10, fontWeight: FontWeight.w600)),
             ],
           )
         ],

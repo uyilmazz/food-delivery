@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/view/food/view/food_detail.dart';
 
 import '../../../core/constants/color_constant.dart';
 import '../../../core/extensions/context_extension.dart';
 import '../../../view/food/model/food.dart';
+import '../../../view/food/view/food_detail.dart';
 
 class FoodCart extends StatelessWidget {
   final Food food;
@@ -21,7 +21,7 @@ class FoodCart extends StatelessWidget {
               margin: EdgeInsets.only(right: context.normalValue),
               padding: EdgeInsets.symmetric(
                   horizontal: context.normalValue, vertical: 0),
-              width: context.dynamicWidth(0.45),
+              width: context.dynamicWidth(0.48),
               height: context.dynamicHeight(0.3),
               decoration: BoxDecoration(
                   color: ColorConstants.secondaryColor.withOpacity(0.5),
@@ -39,7 +39,7 @@ class FoodCart extends StatelessWidget {
                         const SizedBox(height: 3),
                         buildCartDescriptionText(context),
                         const SizedBox(height: 10),
-                        buildPriceText(),
+                        buildPriceText(context),
                       ],
                     ),
                   )
@@ -51,14 +51,15 @@ class FoodCart extends StatelessWidget {
     );
   }
 
-  Text buildPriceText() => Text('\$${food.price ?? 0}');
+  Text buildPriceText(context) => Text('\$${food.price ?? 0}',
+      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17));
 
   Text buildCartDescriptionText(BuildContext context) {
     return Text(
       food.description!.length > 20
           ? food.description!.substring(0, 20).toString()
           : food.description.toString(),
-      style: context.textTheme.labelSmall!.copyWith(
+      style: context.textTheme.labelMedium!.copyWith(
         color: const Color(0xFF969696),
         fontWeight: FontWeight.w400,
       ),
@@ -66,23 +67,23 @@ class FoodCart extends StatelessWidget {
   }
 
   Text buildCartNameText(BuildContext context) {
-    return Text('${food.name}',
-        style: context.textTheme.labelMedium!
-            .copyWith(fontWeight: FontWeight.w400));
+    return Text(food.name ?? '',
+        style:
+            context.textTheme.subtitle2!.copyWith(fontWeight: FontWeight.bold));
   }
 
   Image buildCardImage(BuildContext context) {
     return Image.asset(
       'assets/images/Pigeon Burger.png',
       fit: BoxFit.cover,
-      height: context.height * 0.23,
+      height: context.height * 0.26,
     );
   }
 
   Positioned buildCardCircleButton(BuildContext context) {
     return Positioned(
         right: 10,
-        bottom: context.height * 0.025,
+        bottom: context.height * 0.01,
         child: RawMaterialButton(
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(

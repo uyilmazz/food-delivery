@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/core/extensions/context_extension.dart';
+
+import '../../../core/extensions/context_extension.dart';
 
 class CustomSizeContainer extends StatelessWidget {
   final Color textColor;
@@ -16,9 +17,10 @@ class CustomSizeContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(context.normalValue * 0.8),
+      padding: EdgeInsets.all(context.normalValue * 1.1),
       child: Text(foodText,
-          style: context.textTheme.subtitle1!.copyWith(color: textColor)),
+          style: context.textTheme.subtitle1!
+              .copyWith(color: textColor, fontWeight: FontWeight.w500)),
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
           color: Colors.grey.shade300,

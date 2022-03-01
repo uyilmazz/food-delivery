@@ -14,11 +14,14 @@ class NearYouViewAll extends StatelessWidget {
       children: [
         Text('Near You',
             style: context.textTheme.headline6!
-                .copyWith(fontWeight: FontWeight.w300)),
+                .copyWith(fontWeight: FontWeight.w700)),
         GestureDetector(
           onTap: onPressed ?? () {},
           child: const Text('View All',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w300)),
+              style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey)),
         )
       ],
     );

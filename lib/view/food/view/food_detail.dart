@@ -1,16 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:food_delivery/core/constants/app_constant.dart';
-import 'package:food_delivery/core/constants/color_constant.dart';
-import 'package:food_delivery/core/extensions/context_extension.dart';
-import 'package:food_delivery/core/extensions/string_extension.dart';
-import 'package:food_delivery/product/widgets/appBar/appBar.dart';
-import 'package:food_delivery/product/widgets/container/size_container.dart';
-import 'package:food_delivery/view/food/service/food_serivce.dart';
-import 'package:food_delivery/view/food/view_model/food_view_model.dart';
+import 'package:food_delivery/view/user/service/user_service.dart';
+import 'package:food_delivery/view/user/view_model/user_view_model.dart';
 
+import '../../../core/constants/app_constant.dart';
+import '../../../core/constants/color_constant.dart';
+import '../../../core/extensions/context_extension.dart';
+import '../../../core/extensions/string_extension.dart';
+import '../../../product/widgets/appBar/appBar.dart';
+import '../../../product/widgets/button/container_add_cart_button.dart';
+import '../../../product/widgets/container/size_container.dart';
 import '../model/food.dart';
+import '../service/food_serivce.dart';
+import '../view_model/food_view_model.dart';
 
 class FoodDetail extends StatelessWidget {
   final Food food;
@@ -20,6 +23,7 @@ class FoodDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FoodViewModel viewmodel = FoodViewModel(FoodService(Dio()));
+    UserViewModel userModel = UserViewModel(UserService(Dio()));
 
     return SafeArea(
       child: Scaffold(
@@ -33,14 +37,17 @@ class FoodDetail extends StatelessWidget {
             children: [
               Expanded(flex: 2, child: buildAppbar(context)),
               Expanded(
-                flex: 10,
+                flex: 20,
                 child: buildStackImageAndSize(context, viewmodel),
               ),
               const Spacer(),
-              Expanded(flex: 1, child: buildRowNameAndCookingTime(context)),
+              Expanded(flex: 2, child: buildRowNameAndCookingTime(context)),
               const Spacer(),
               Expanded(flex: 4, child: buildFoodDescription(context)),
-              Expanded(flex: 3, child: buildPriceAndAddCartButton(context)),
+              const Spacer(),
+              Expanded(
+                  flex: 3,
+                  child: buildPriceAndAddCartButton(context, userModel)),
             ],
           ),
         ),
@@ -75,7 +82,8 @@ class FoodDetail extends StatelessWidget {
   Stack buildStackImageAndSize(BuildContext context, FoodViewModel viewmodel) {
     return Stack(
       children: [
-        Image.asset('burger_large'.toPng, fit: BoxFit.cover),
+        Image.asset('burger_large'.toPng,
+            height: context.height * 0.7, fit: BoxFit.cover),
         Align(
           alignment: Alignment.bottomCenter,
           child: buildFoodSize(context, viewmodel),
@@ -87,7 +95,7 @@ class FoodDetail extends StatelessWidget {
   Widget buildFoodSize(BuildContext context, FoodViewModel viewmodel) =>
       Observer(
           builder: (context) => Wrap(
-                spacing: 25,
+                spacing: context.width * 0.1,
                 children: List.generate(
                     food.size!.length,
                     (index) => GestureDetector(
@@ -110,41 +118,75 @@ class FoodDetail extends StatelessWidget {
           Text(
             food.name.toString().toCapitalize,
             style: context.textTheme.headline6!.copyWith(
-                fontFamily: AppConstant.FONT_FAMILY_LIGHT,
-                fontWeight: FontWeight.w700),
+                fontFamily: AppConstant.FONT_FAMILY,
+                fontWeight: FontWeight.bold),
           ),
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: context.width * 0.03,
+            spacing: context.width * 0.033,
             children: [
               Icon(Icons.access_time_rounded, size: context.height * 0.025),
               Text(
                   '${food.cookingTime != null ? food.cookingTime!.round() : 0} Mins',
-                  style: context.textTheme.labelMedium!)
+                  style: context.textTheme.subtitle2!
+                      .copyWith(fontWeight: FontWeight.w600))
             ],
           )
         ],
       );
 
-  Widget buildFoodDescription(BuildContext context) =>
-      Container(color: Colors.red, child: Text(food.description.toString()));
+  Widget buildFoodDescription(BuildContext context) => SizedBox(
+          child: Text(
+        food.description.toString(),
+        style: context.textTheme.headline6!.copyWith(
+            fontFamily: AppConstant.FONT_FAMILY_LIGHT,
+            fontWeight: FontWeight.normal,
+            fontSize: 18),
+      ));
 
-  Widget buildPriceAndAddCartButton(BuildContext context) => Row(
+  Widget buildPriceAndAddCartButton(
+          BuildContext context, UserViewModel userModel) =>
+      Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Wrap(
-            spacing: context.height * 0.01,
-            direction: Axis.vertical,
-            children: [
-              Text('Total Price',
-                  style: context.textTheme.subtitle2!.copyWith(
-                      color: Colors.grey, fontWeight: FontWeight.w400)),
-              Text('\$${food.price}',
-                  style: context.textTheme.subtitle2!
-                      .copyWith(fontWeight: FontWeight.w500))
-            ],
-          ),
-          ElevatedButton(onPressed: () {}, child: Text('Add To Cart'))
+          buildWrapTotalPrice(context),
+          ContainerAddCartButton(
+            widget: buildAddCartInside(context),
+            bottomRight: context.mediumValue,
+            topRight: context.mediumValue,
+            topLeft: context.mediumValue * 1.3,
+            onTap: () async {
+              await userModel.addToCart(food.id!);
+            },
+          )
         ],
       );
+
+  Wrap buildWrapTotalPrice(BuildContext context) {
+    return Wrap(
+      spacing: context.height * 0.015,
+      direction: Axis.vertical,
+      children: [
+        Text('Total Price',
+            style: context.textTheme.subtitle1!
+                .copyWith(color: Colors.grey, fontWeight: FontWeight.w400)),
+        Text('\$${food.price ?? 0}',
+            style: context.textTheme.headline6!
+                .copyWith(fontWeight: FontWeight.w800))
+      ],
+    );
+  }
+
+  Wrap buildAddCartInside(BuildContext context) {
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: context.lowValue,
+      children: [
+        Text('Add to Cart',
+            style: context.textTheme.subtitle1!
+                .copyWith(color: Colors.white, fontWeight: FontWeight.w500)),
+        const Icon(Icons.add_circle_outline_outlined, color: Colors.white)
+      ],
+    );
+  }
 }

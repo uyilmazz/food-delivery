@@ -10,4 +10,5 @@ abstract class IFoodService {
   Future<Food> getFood(String id);
   Future<dynamic> getCategories();
   Future<dynamic> getFoodsByCategory(String categoryId);
+  Future<dynamic> getRestaurants();
 }
