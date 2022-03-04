@@ -10,7 +10,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       cart: json['cart'] == null
           ? null
           : Cart.fromJson(json['cart'] as Map<String, dynamic>),
-      id: json['id'] as String?,
+      id: json['_id'] as String?,
       name: json['name'] as String?,
       email: json['email'] as String?,
       phoneNumber: json['phoneNumber'] as String?,

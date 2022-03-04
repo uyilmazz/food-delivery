@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/view/user/view_model/user_view_model.dart';
-import '../../../core/constants/app_constant.dart';
-import '../../../core/extensions/context_extension.dart';
 
-import '../../../core/constants/color_constant.dart';
+import '../../../core/constants/app/app_constant.dart';
+import '../../../core/constants/color/color_constant.dart';
+import '../../../core/extensions/context_extension.dart';
+import '../../../view/user/view_model/user_view_model_provider.dart';
 
 class IncrementDecrementRow extends StatelessWidget {
-  final UserViewModel userViewModel;
+  final UserViewModelProvider userViewModel;
   final String foodId;
   final int quantity;
   const IncrementDecrementRow(
@@ -22,7 +22,7 @@ class IncrementDecrementRow extends StatelessWidget {
       children: [
         buildCustomButton(context, Icons.remove,
             bottomLeft: true, topLeft: true, onTap: () async {
-          await userViewModel.removeCartItem(foodId);
+          await userViewModel.decrementCartItem(foodId);
         }),
         buildQuantityContainer(context),
         buildCustomButton(context, Icons.add, bottomRight: true, topRight: true,

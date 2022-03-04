@@ -4,7 +4,7 @@ import '../../../core/extensions/context_extension.dart';
 class CustomAppBar extends StatelessWidget {
   Widget? leading;
   Widget? centerWidget;
-  IconData? trailingIcon;
+  Icon? trailingIcon;
   Function()? trailingOnPressed;
   CustomAppBar({
     Key? key,
@@ -35,7 +35,7 @@ class CustomAppBar extends StatelessWidget {
                   ),
                 ],
                 borderRadius: BorderRadius.circular(context.lowValue)),
-            child: Icon(trailingIcon),
+            child: trailingIcon,
           ),
         ),
       ],
