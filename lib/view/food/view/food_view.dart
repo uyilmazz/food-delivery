@@ -2,19 +2,21 @@ import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'shopping_page.dart';
-import 'profile_page.dart';
-import '../../../core/constants/app_constant.dart';
-import '../../../product/widgets/appBar/appBar.dart';
-import '../../../product/widgets/cart/restaurant_card.dart';
-import '../../../product/widgets/row/view_all.dart';
+import '../../user/view_model/user_view_model_provider.dart';
+import 'package:provider/provider.dart';
 import '../../../core/base/view/base_widget.dart';
-import '../../../core/constants/color_constant.dart';
+import '../../../core/constants/app/app_constant.dart';
+import '../../../core/constants/color/color_constant.dart';
 import '../../../core/extensions/context_extension.dart';
 import '../../../core/extensions/string_extension.dart';
+import '../../../product/widgets/appBar/appBar.dart';
 import '../../../product/widgets/cart/food_card.dart';
+import '../../../product/widgets/cart/restaurant_card.dart';
+import '../../../product/widgets/row/view_all.dart';
+import '../../user/view/profile_page.dart';
 import '../service/food_serivce.dart';
 import '../view_model/food_view_model.dart';
+import 'shopping_page.dart';
 
 class FoodView extends StatelessWidget {
   const FoodView({Key? key}) : super(key: key);
@@ -24,19 +26,15 @@ class FoodView extends StatelessWidget {
     return BaseView<FoodViewModel>(
         viewModel: FoodViewModel(FoodService(Dio())),
         onModelReady: (model) {
-          model.setContext(context);
           model.init();
         },
         onPageBuilder: (context, viewmodel) => SafeArea(
               child: Scaffold(
-                bottomNavigationBar: _buildFloatingBar(context, viewmodel),
+                bottomNavigationBar:
+                    _buildButtonNavigationBar(context, viewmodel),
                 backgroundColor: Colors.white,
                 resizeToAvoidBottomInset: false,
-                body: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: context.normalValue,
-                        vertical: context.normalValue * 2),
-                    child: setPage(viewmodel)),
+                body: setPage(viewmodel),
               ),
             ));
   }
@@ -59,21 +57,24 @@ class FoodView extends StatelessWidget {
     return Observer(
         builder: (context) => DefaultTabController(
               length: viewmodel.categories.length,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(flex: 4, child: buildAppbar(context)),
-                  const Spacer(),
-                  Expanded(flex: 3, child: buildSearchTextField(context)),
-                  const Spacer(),
-                  Expanded(flex: 2, child: buildTabBar(context, viewmodel)),
-                  const Spacer(flex: 2),
-                  Expanded(
-                      flex: 16, child: buildFoodListView(context, viewmodel)),
-                  const Spacer(),
-                  Expanded(flex: 7, child: buildNearYou(context, viewmodel)),
-                  // const Spacer(),
-                ],
+              child: Padding(
+                padding: context.pagePadding,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(flex: 4, child: buildAppbar(context)),
+                    const Spacer(),
+                    Expanded(flex: 3, child: buildSearchTextField(context)),
+                    const Spacer(),
+                    Expanded(flex: 2, child: buildTabBar(context, viewmodel)),
+                    const Spacer(flex: 2),
+                    Expanded(
+                        flex: 16, child: buildFoodListView(context, viewmodel)),
+                    const Spacer(),
+                    Expanded(flex: 7, child: buildNearYou(context, viewmodel)),
+                    // const Spacer(),
+                  ],
+                ),
               ),
             ));
   }
@@ -127,7 +128,7 @@ class FoodView extends StatelessWidget {
 
   Widget buildAppbar(BuildContext context) => CustomAppBar(
         leading: buildAppBarLeading(context),
-        trailingIcon: Icons.card_travel,
+        trailingIcon: const Icon(Icons.card_travel),
         trailingOnPressed: () {},
       );
 
@@ -154,7 +155,9 @@ class FoodView extends StatelessWidget {
               fontWeight: FontWeight.w500,
               fontSize: 14),
         ),
-        Text('Ünal Yılmaz',
+        Text(
+            context.read<UserViewModelProvider>().user?.name ??
+                'User name Not found',
             style: context.textTheme.labelLarge!.copyWith(
                 // fontFamily: 'ProductSans',
                 fontSize: 20,
@@ -189,7 +192,8 @@ class FoodView extends StatelessWidget {
                     BorderRadius.circular(context.dynamicWidth(0.02)))),
       );
 
-  Widget _buildFloatingBar(BuildContext context, FoodViewModel viewModel) =>
+  Widget _buildButtonNavigationBar(
+          BuildContext context, FoodViewModel viewModel) =>
       Observer(builder: (context) {
         return Container(
           height: context.height * 0.11,
@@ -203,18 +207,11 @@ class FoodView extends StatelessWidget {
             backgroundColor: ColorConstants.primaryColor,
             borderRadius: Radius.circular(context.mediumValue),
             items: [
+              CustomNavigationBarItem(icon: const Icon(Icons.home)),
               CustomNavigationBarItem(
-                icon: const Icon(Icons.home),
-              ),
-              CustomNavigationBarItem(
-                icon: const Icon(Icons.account_balance_wallet_outlined),
-              ),
-              CustomNavigationBarItem(
-                icon: const Icon(Icons.card_travel),
-              ),
-              CustomNavigationBarItem(
-                icon: const Icon(Icons.person_outline),
-              ),
+                  icon: const Icon(Icons.account_balance_wallet_outlined)),
+              CustomNavigationBarItem(icon: const Icon(Icons.card_travel)),
+              CustomNavigationBarItem(icon: const Icon(Icons.person_outline)),
             ],
             currentIndex: viewModel.currentNavBarItem,
             onTap: (index) {

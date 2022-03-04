@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'view/user/view_model/user_view_model_provider.dart';
+import 'package:provider/provider.dart';
+import 'onboard.dart';
 
-import 'view/food/view/food_view.dart';
-
-void main() => runApp(const MyApp());
+void main() => runApp(MultiProvider(providers: [
+      ChangeNotifierProvider(create: (context) => UserViewModelProvider()),
+    ], child: const MyApp()));
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
       title: 'Material App',
-      home: const FoodView(),
+      home: const OnBoardPage(),
     );
   }
 }

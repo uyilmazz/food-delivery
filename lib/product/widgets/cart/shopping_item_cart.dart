@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../view/user/view_model/user_view_model.dart';
-import '../../../core/constants/app_constant.dart';
+import '../../../view/user/view_model/user_view_model_provider.dart';
 import '../../../core/extensions/context_extension.dart';
 import '../../../core/extensions/string_extension.dart';
 import '../row/increment_decrement_button.dart';
 
 class ShoppingItemCart extends StatelessWidget {
-  final UserViewModel userViewModel;
+  final UserViewModelProvider userViewModel;
   final Map<String, dynamic> item;
   const ShoppingItemCart(
       {Key? key, required this.userViewModel, required this.item})
@@ -45,11 +44,13 @@ class ShoppingItemCart extends StatelessWidget {
 
   IconButton buildDeleteIcon(BuildContext context) {
     return IconButton(
-        onPressed: () {},
+        onPressed: () async {
+          await userViewModel.removeCartItem(item['food']['_id']);
+        },
         icon: Icon(
-          Icons.delete,
+          Icons.disabled_by_default_outlined,
           size: context.height * 0.035,
-          color: Colors.red,
+          color: Colors.black87.withOpacity(0.7),
         ));
   }
 
@@ -60,16 +61,12 @@ class ShoppingItemCart extends StatelessWidget {
       children: [
         Text(
           item['food']['name'],
-          style: context.textTheme.subtitle2!.copyWith(
-              fontSize: 14,
-              fontFamily: AppConstant.FONT_FAMILY,
-              fontWeight: FontWeight.w600),
+          style: context.textTheme.subtitle2!
+              .copyWith(fontSize: 15, fontWeight: FontWeight.w700),
         ),
         Text('\$ ' + item['food']['price'].toStringAsFixed(2).toString(),
-            style: context.textTheme.subtitle2!.copyWith(
-                fontFamily: AppConstant.FONT_FAMILY_LIGHT,
-                fontSize: 14,
-                fontWeight: FontWeight.w400))
+            style: context.textTheme.subtitle1!
+                .copyWith(fontSize: 14, fontWeight: FontWeight.w400))
       ],
     );
   }

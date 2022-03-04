@@ -1,16 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:food_delivery/view/user/service/user_service.dart';
-import 'package:food_delivery/view/user/view_model/user_view_model.dart';
+import 'package:provider/provider.dart';
 
-import '../../../core/constants/app_constant.dart';
-import '../../../core/constants/color_constant.dart';
+import '../../../core/constants/app/app_constant.dart';
+import '../../../core/constants/color/color_constant.dart';
 import '../../../core/extensions/context_extension.dart';
 import '../../../core/extensions/string_extension.dart';
 import '../../../product/widgets/appBar/appBar.dart';
-import '../../../product/widgets/button/container_add_cart_button.dart';
+import '../../../product/widgets/button/add_cart_button.dart';
 import '../../../product/widgets/container/size_container.dart';
+import '../../user/view_model/user_view_model_provider.dart';
 import '../model/food.dart';
 import '../service/food_serivce.dart';
 import '../view_model/food_view_model.dart';
@@ -23,7 +23,7 @@ class FoodDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FoodViewModel viewmodel = FoodViewModel(FoodService(Dio()));
-    UserViewModel userModel = UserViewModel(UserService(Dio()));
+    final userModel = Provider.of<UserViewModelProvider>(context);
 
     return SafeArea(
       child: Scaffold(
@@ -59,6 +59,7 @@ class FoodDetail extends StatelessWidget {
     return CustomAppBar(
         leading: GestureDetector(
           onTap: () {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
             Navigator.of(context).pop();
           },
           child: Container(
@@ -76,7 +77,7 @@ class FoodDetail extends StatelessWidget {
             child: const Icon(Icons.arrow_back_ios_new_sharp),
           ),
         ),
-        trailingIcon: Icons.favorite_border);
+        trailingIcon: const Icon(Icons.favorite_border));
   }
 
   Stack buildStackImageAndSize(BuildContext context, FoodViewModel viewmodel) {
@@ -145,7 +146,7 @@ class FoodDetail extends StatelessWidget {
       ));
 
   Widget buildPriceAndAddCartButton(
-          BuildContext context, UserViewModel userModel) =>
+          BuildContext context, UserViewModelProvider userModel) =>
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -156,7 +157,14 @@ class FoodDetail extends StatelessWidget {
             topRight: context.mediumValue,
             topLeft: context.mediumValue * 1.3,
             onTap: () async {
+              userModel.addButtonChange();
               await userModel.addToCart(food.id!);
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Food added to cart successfully',
+                      style: TextStyle(color: Colors.green)),
+                  duration: Duration(milliseconds: 1500)));
+              await Future.delayed(const Duration(seconds: 2));
+              userModel.addButtonChange();
             },
           )
         ],

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../core/base/model/base_view_model.dart';
@@ -9,16 +8,8 @@ part 'food_view_model.g.dart';
 class FoodViewModel = _FoodViewModelBase with _$FoodViewModel;
 
 abstract class _FoodViewModelBase with Store, BaseViewModel {
-  @override
-  BuildContext? context;
-
   final FoodService _foodService;
   _FoodViewModelBase(this._foodService);
-
-  @override
-  void setContext(contextValue) {
-    context = contextValue;
-  }
 
   @observable
   List<dynamic> categories = [];
