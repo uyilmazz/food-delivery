@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import '../../../core/extensions/context_extension.dart';
 
 class CustomAppBar extends StatelessWidget {
-  Widget? leading;
-  Widget? centerWidget;
-  Icon? trailingIcon;
-  Function()? trailingOnPressed;
-  CustomAppBar({
+  final Widget? leading;
+  final Widget? centerWidget;
+  final Icon? trailingIcon;
+  final Function()? trailingOnPressed;
+  const CustomAppBar({
     Key? key,
     this.leading,
     this.centerWidget,

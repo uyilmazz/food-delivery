@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../user/view_model/user_view_model_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/app/app_constant.dart';
 import '../../../core/extensions/context_extension.dart';
 import '../../../product/widgets/appBar/appBar.dart';
 import '../../../product/widgets/button/add_cart_button.dart';
 import '../../../product/widgets/cart/shopping_item_cart.dart';
+import '../../user/view_model/user_view_model_provider.dart';
 
 class ShoppingPage extends StatelessWidget {
   const ShoppingPage({Key? key}) : super(key: key);

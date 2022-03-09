@@ -19,7 +19,7 @@ Food _$FoodFromJson(Map<String, dynamic> json) => Food(
     );
 
 Map<String, dynamic> _$FoodToJson(Food instance) => <String, dynamic>{
-      'id': instance.id,
+      '_id': instance.id,
       'name': instance.name,
       'price': instance.price,
       'description': instance.description,

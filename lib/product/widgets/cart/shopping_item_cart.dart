@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../view/user/view_model/user_view_model_provider.dart';
 import '../../../core/extensions/context_extension.dart';
 import '../../../core/extensions/string_extension.dart';
+import '../../../view/user/view_model/user_view_model_provider.dart';
 import '../row/increment_decrement_button.dart';
 
 class ShoppingItemCart extends StatelessWidget {

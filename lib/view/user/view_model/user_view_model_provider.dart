@@ -74,7 +74,6 @@ class UserViewModelProvider extends ChangeNotifier with BaseViewModel {
     notifyListeners();
   }
 
-  //onboardViewModel
   Future<bool> registerUser(String name, String email, String password) async {
     final response = await _userService.registerUser(name, email, password);
     if (response != null) {
@@ -100,6 +99,8 @@ class UserViewModelProvider extends ChangeNotifier with BaseViewModel {
   }
 
   Future<void> verifyToken() async {
+    final startTime = DateTime.now().millisecondsSinceEpoch;
+
     User? response = await _userService.verifyToken();
     if (response != null) {
       user = response;
@@ -108,7 +109,10 @@ class UserViewModelProvider extends ChangeNotifier with BaseViewModel {
     } else {
       isVerified = false;
     }
-    await Future.delayed(const Duration(seconds: 3));
+    var endTime = DateTime.now().millisecondsSinceEpoch;
+    if (endTime - startTime < 2500) {
+      await Future.delayed(Duration(milliseconds: ((endTime - startTime))));
+    }
     changeLoading();
     notifyListeners();
   }
