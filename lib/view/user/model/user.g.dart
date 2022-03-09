@@ -22,7 +22,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'cart': instance.cart,
-      'id': instance.id,
+      '_id': instance.id,
       'name': instance.name,
       'email': instance.email,
       'phoneNumber': instance.phoneNumber,
@@ -30,4 +30,26 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
       'iV': instance.iV,
+    };
+
+Cart _$CartFromJson(Map<String, dynamic> json) => Cart(
+      cartItems: (json['cartItems'] as List<dynamic>?)
+          ?.map((e) => CartItems.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$CartToJson(Cart instance) => <String, dynamic>{
+      'cartItems': instance.cartItems,
+    };
+
+CartItems _$CartItemsFromJson(Map<String, dynamic> json) => CartItems(
+      foodId: json['foodId'] as String?,
+      quantity: json['quantity'] as int?,
+      cartItemsId: json['cartItemsId'] as String?,
+    );
+
+Map<String, dynamic> _$CartItemsToJson(CartItems instance) => <String, dynamic>{
+      'foodId': instance.foodId,
+      'quantity': instance.quantity,
+      'cartItemsId': instance.cartItemsId,
     };

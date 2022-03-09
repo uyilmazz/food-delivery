@@ -7,7 +7,7 @@ part of 'restaurant.dart';
 // **************************************************************************
 
 Restaurant _$RestaurantFromJson(Map<String, dynamic> json) => Restaurant(
-      id: json['id'] as String?,
+      id: json['_id'] as String?,
       name: json['name'] as String?,
       address: json['address'] as String?,
       telNo: json['telNo'] as String?,
@@ -17,7 +17,7 @@ Restaurant _$RestaurantFromJson(Map<String, dynamic> json) => Restaurant(
 
 Map<String, dynamic> _$RestaurantToJson(Restaurant instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      '_id': instance.id,
       'name': instance.name,
       'address': instance.address,
       'telNo': instance.telNo,

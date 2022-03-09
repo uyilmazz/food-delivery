@@ -4,6 +4,7 @@ part 'restaurant.g.dart';
 
 @JsonSerializable()
 class Restaurant {
+  @JsonKey(name: '_id')
   String? id;
   String? name;
   String? address;
@@ -19,23 +20,10 @@ class Restaurant {
       this.delivery,
       this.rating});
 
-  Restaurant.fromJson(Map<String, dynamic> json) {
-    id = json['_id'];
-    name = json['name'];
-    address = json['address'];
-    telNo = json['telNo'];
-    delivery = json['delivery'];
-    rating = json['rating'];
-  }
+  factory Restaurant.fromJson(Map<String, dynamic> json) =>
+      _$RestaurantFromJson(json);
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = id;
-    data['name'] = name;
-    data['address'] = address;
-    data['telNo'] = telNo;
-    data['delivery'] = delivery;
-    data['rating'] = rating;
-    return data;
+    return _$RestaurantToJson(this);
   }
 }

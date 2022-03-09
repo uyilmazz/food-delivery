@@ -5,6 +5,7 @@ part 'user.g.dart';
 @JsonSerializable()
 class User {
   Cart? cart;
+  @JsonKey(name: '_id')
   String? id;
   String? name;
   String? email;
@@ -25,58 +26,27 @@ class User {
       this.updatedAt,
       this.iV});
 
-  User.fromJson(Map<String, dynamic> json) {
-    cart = json['cart'] != null ? Cart.fromJson(json['cart']) : null;
-    id = json['_id'];
-    name = json['name'];
-    email = json['email'];
-    phoneNumber = json['phoneNumber'];
-    password = json['password'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    iV = json['__v'];
-  }
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (cart != null) {
-      data['cart'] = cart!.toJson();
-    }
-    data['_id'] = id;
-    data['name'] = name;
-    data['email'] = email;
-    data['phoneNumber'] = phoneNumber;
-    data['password'] = password;
-    data['createdAt'] = createdAt;
-    data['updatedAt'] = updatedAt;
-    data['__v'] = iV;
-    return data;
+    return _$UserToJson(this);
   }
 }
 
+@JsonSerializable()
 class Cart {
   List<CartItems>? cartItems;
 
   Cart({this.cartItems});
 
-  Cart.fromJson(Map<String, dynamic> json) {
-    if (json['cartItems'] != null) {
-      cartItems = <CartItems>[];
-      json['cartItems'].forEach((v) {
-        cartItems!.add(CartItems.fromJson(v));
-      });
-    }
-  }
+  factory Cart.fromJson(Map<String, dynamic> json) => _$CartFromJson(json);
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (cartItems != null) {
-      data['cartItems'] = cartItems!.map((v) => v.toJson()).toList();
-    }
-    return data;
+    return _$CartToJson(this);
   }
 }
 
+@JsonSerializable()
 class CartItems {
   String? foodId;
   int? quantity;
@@ -84,17 +54,10 @@ class CartItems {
 
   CartItems({this.foodId, this.quantity, this.cartItemsId});
 
-  CartItems.fromJson(Map<String, dynamic> json) {
-    foodId = json['foodId'];
-    quantity = json['quantity'];
-    cartItemsId = json['_id'];
-  }
+  factory CartItems.fromJson(Map<String, dynamic> json) =>
+      _$CartItemsFromJson(json);
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['foodId'] = foodId;
-    data['quantity'] = quantity;
-    data['_id'] = cartItemsId;
-    return data;
+    return _$CartItemsToJson(this);
   }
 }

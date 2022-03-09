@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../view/user/view_model/user_view_model_provider.dart';
 import 'package:provider/provider.dart';
-
 import '../../../core/constants/color/color_constant.dart';
 import '../../../core/extensions/context_extension.dart';
 

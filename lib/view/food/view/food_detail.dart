@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
-
 import '../../../core/constants/app/app_constant.dart';
 import '../../../core/constants/color/color_constant.dart';
 import '../../../core/extensions/context_extension.dart';
@@ -119,7 +118,7 @@ class FoodDetail extends StatelessWidget {
           Text(
             food.name.toString().toCapitalize,
             style: context.textTheme.headline6!.copyWith(
-                fontFamily: AppConstant.FONT_FAMILY,
+                fontFamily: AppConstant.fontFamily,
                 fontWeight: FontWeight.bold),
           ),
           Wrap(
@@ -140,7 +139,7 @@ class FoodDetail extends StatelessWidget {
           child: Text(
         food.description.toString(),
         style: context.textTheme.headline6!.copyWith(
-            fontFamily: AppConstant.FONT_FAMILY_LIGHT,
+            fontFamily: AppConstant.fontFamilyLight,
             fontWeight: FontWeight.normal,
             fontSize: 18),
       ));

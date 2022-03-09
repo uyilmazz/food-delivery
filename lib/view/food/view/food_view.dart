@@ -151,7 +151,7 @@ class FoodView extends StatelessWidget {
           'Good Morning',
           style: context.textTheme.subtitle2!.copyWith(
               color: Colors.black,
-              fontFamily: AppConstant.FONT_FAMILY_LIGHT,
+              fontFamily: AppConstant.fontFamilyLight,
               fontWeight: FontWeight.w500,
               fontSize: 14),
         ),

@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-
 import '../model/category.dart';
 import '../model/food.dart';
 import '../model/restaurant.dart';

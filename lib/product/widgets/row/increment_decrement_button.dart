@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../core/constants/app/app_constant.dart';
 import '../../../core/constants/color/color_constant.dart';
 import '../../../core/extensions/context_extension.dart';
@@ -48,7 +47,7 @@ class IncrementDecrementRow extends StatelessWidget {
             quantity.toString(),
             style: context.textTheme.subtitle1!.copyWith(
                 fontWeight: FontWeight.normal,
-                fontFamily: AppConstant.FONT_FAMILY),
+                fontFamily: AppConstant.fontFamily),
           )));
 
   Widget buildCustomButton(BuildContext context, IconData icon,
